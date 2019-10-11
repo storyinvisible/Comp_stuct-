@@ -1,0 +1,120 @@
+module finite_machine (
+    input clk, 
+    input rst,
+    output current[4],     // this output is to indicate the value that the state machine want to output
+    input answer[2],       // the answer is the output of the Full adder, that the Mojo read
+    input test,            // The instruction for state machine to move out of the idle state. 
+    input timer[28]        // This is the timer from the Mojo top, this is to slow down the state machine so that human 
+                           // can read the the out put and inspect our circuits 
+  ) {
+  
+  adder add;  // this module will be giving the asnwer of binary addition , and answer is used to compare 
+              // the asnwer from the full adder ciruits.
+ 
+  .clk(clk){
+  
+    .rst(rst){
+      fsm state= {IDLE,ONE,TWO,THREE,FOUR,FIVE,SIX,SEVEN,EIGHT,PASS,FAIL};
+ 
+      }
+    
+    }
+  var cur;
+  always {
+  
+    current= cur;                 // The value of the state machine, 
+
+    add.in=3b000;                 // the default is set to 000
+    case(state.q){
+      state.PASS:               
+        state.d=state.PASS;
+        cur=4b1111;               // In the state pass, The state will be 4 "1"s  
+
+
+
+      state.IDLE:                // this state is prevent the state machine from run  
+        if(test){                //the test case unless test instruciton is given
+          state.d= state.ONE;    // If test instruction is given , then the state machine will move to state one 
+          cur= 4b0000;           
+     
+          }
+        
+      state.ONE:                                    // Now the state machine will move on to the testing phase
+        current=4b000;                              // At the testing phase, the state value "current" will be used as 
+        add.in=3b000;                               // output to the adder , 
+    
+          if(add.answer==answer&&timer==7hff){      // then the state state machine will only move on to the next state 
+            state.d=state.TWO;                      // if the answer is correct , and the timer has hit its last value 
+            current=4b001;                          
+         
+            }
+                            
+      state.TWO:
+        current=4b001;
+        add.in=3b001;
+    
+          if(add.answer==answer&&timer==7hff){
+          state.d=state.THREE;
+          current=4b010;
+          }
+        
+
+      state.THREE:
+        current=4b010;
+        add.in=3b010;
+
+        if(add.answer==answer&&timer==7hff){
+          state.d=state.FOUR;
+          current=4b100;
+          }
+ 
+      state.FOUR:
+        current=4b100;
+        add.in=3b100;
+        if(add.answer==answer&&timer==7hff){
+          state.d=state.FIVE;
+          current=4b100;
+          }
+
+      state.FIVE:
+        current=4b110;
+        add.in=3b110;
+        if(add.answer==answer&&timer==7hff){
+          state.d=state.SIX;
+          current=4b101;
+          }
+ 
+      state.SIX:
+        current=4b101;
+        add.in=3b101;
+        if(add.answer==answer&&timer==7hff){
+          state.d=state.SEVEN;
+          current=4b101;
+          }
+       
+
+      state.SEVEN:
+        current=4b011;
+        current=4b011;
+        add.in=3b011;
+        if(add.answer==answer&&timer==7hff){
+          state.d=state.EIGHT;
+          current=4b111;
+          }
+        
+
+      state.EIGHT:
+        current=4b111;
+        add.in=3b111;
+        if(add.answer==answer&&timer==7hff){
+          state.d=state.PASS;                      // This is the last state of the state machine, thus all test case passed
+                                                   // The state machine will enter the state of pass
+       
+          }
+
+        }
+
+      
+        
+  }
+}

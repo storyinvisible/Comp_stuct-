@@ -1,0 +1,8 @@
+INTSTYLE=pa
+INFILE=D:\SUTD\Term 4 Computational Structure\1dmini\fsm_with_mannua\work\planAhead\fsm_with_mannua\fsm_with_mannua.runs\impl_1\mojo_top_0_routed.ncd
+OUTFILE=D:\SUTD\Term 4 Computational Structure\1dmini\fsm_with_mannua\work\planAhead\fsm_with_mannua\fsm_with_mannua.runs\impl_1\mojo_top_0.bit
+FAMILY=Spartan6
+PART=xc6slx9-2tqg144
+WORKINGDIR=D:\SUTD\Term 4 Computational Structure\1dmini\fsm_with_mannua\work\planAhead\fsm_with_mannua\fsm_with_mannua.runs\impl_1
+LICENSE=WebPack
+USER_INFO=211810341_0_0_954

@@ -1,0 +1,10 @@
+module adder (
+
+    input in[3],          // input value of a, b, c, 
+    output answer[2]      // output answer , since answer consist of the sum and carry bit, thus only two bits is needed 
+  ) {
+
+  always {
+    answer = in[0]+in[1]+in[2];    // :) this is how addtion work 
+  }
+}
